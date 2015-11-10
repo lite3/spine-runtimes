@@ -36,5 +36,7 @@
 #include "cocos2d.h"
 #include <spine/SkeletonRenderer.h>
 #include <spine/SkeletonAnimation.h>
+#include <spine/MySkeletonAnimation.h>
+#include <spine/WorldClock.h>
 
 #endif /* SPINE_COCOS2DX_H_ */

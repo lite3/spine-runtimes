@@ -35,11 +35,39 @@
 USING_NS_CC;
 
 void _spAtlasPage_createTexture (spAtlasPage* self, const char* path) {
-	Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
-	texture->retain();
-	self->rendererObject = texture;
-	self->width = texture->getPixelsWide();
-	self->height = texture->getPixelsHigh();
+    Texture2D::PixelFormat old = Texture2D::getDefaultAlphaPixelFormat();
+    Texture2D::PixelFormat now = old;
+
+    switch (self->format)
+    {
+    case spAtlasFormat::SP_ATLAS_RGBA8888:
+        now = Texture2D::PixelFormat::RGBA8888;
+        break;
+    case spAtlasFormat::SP_ATLAS_RGBA4444:
+        now = Texture2D::PixelFormat::RGBA4444;
+        break;
+    case spAtlasFormat::SP_ATLAS_RGB888:
+        now = Texture2D::PixelFormat::RGB888;
+        break;
+    case spAtlasFormat::SP_ATLAS_RGB565:
+        now = Texture2D::PixelFormat::RGB565;
+        break;
+    case spAtlasFormat::SP_ATLAS_ALPHA:
+        now = Texture2D::PixelFormat::A8;
+        break;
+    case spAtlasFormat::SP_ATLAS_INTENSITY:
+        now = Texture2D::PixelFormat::I8;
+        break;
+    case spAtlasFormat::SP_ATLAS_LUMINANCE_ALPHA:
+        break;
+    }
+    Texture2D::setDefaultAlphaPixelFormat(now);
+    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
+    Texture2D::setDefaultAlphaPixelFormat(old);
+    texture->retain();
+    self->rendererObject = texture;
+    self->width = texture->getPixelsWide();
+    self->height = texture->getPixelsHigh();
 }
 
 void _spAtlasPage_disposeTexture (spAtlasPage* self) {

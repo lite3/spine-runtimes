@@ -154,6 +154,8 @@ spTrackEntry* SkeletonAnimation::setAnimation (int trackIndex, const std::string
 		log("Spine: Animation not found: %s", name.c_str());
 		return 0;
 	}
+	// 避免出现错乱的显示
+	// setToSetupPose();
 	return spAnimationState_setAnimation(_state, trackIndex, animation, loop);
 }
 
